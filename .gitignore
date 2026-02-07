@@ -1,0 +1,11 @@
+ai/model/tag_classification/checkpoint-*
+ai/model/tag_classification/*.safetensors
+*.env
+
+# Python cache
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.cpython-*
+
