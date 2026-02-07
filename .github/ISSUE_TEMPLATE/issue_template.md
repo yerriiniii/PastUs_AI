@@ -1,9 +1,9 @@
 ---
-name: 이슈 탬플릿
-about: 이슈를 생성해주세요.
-title: ''
-labels: ''
-assignees: ''
+name: 이슈
+description: 이슈를 생성해주세요.
+title: "[이슈] "
+labels: []
+assignees: []
 
 ---
 
