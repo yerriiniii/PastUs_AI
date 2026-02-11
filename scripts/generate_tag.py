@@ -161,7 +161,11 @@ def generate_samples(datas_num, forced_target):
     content = response.choices[0].message.content.strip()
 
     if content.startswith("```"):
-        content = content.split("```")[1]
+        parts = content.split("```")
+        content = parts[1] if len(parts) > 1 else content
+        content = content.strip()
+        if content.lower().startswith("json"):
+            content = content[4:].strip()
 
     try:
         return json.loads(content)
@@ -190,10 +194,20 @@ def main():
 
     all_datas = []
     pbar = tqdm(total=TARGET_TOTAL, desc="유효 샘플 수집")
+    empty_batch_streak = 0
+    MAX_EMPTY_STREAK = 10
 
     while len(all_datas) < TARGET_TOTAL:
         forced_target = random.choice(TARGET_TAGS)
         batch = generate_samples(SAMPLES_PER_BATCH, forced_target)
+
+        if not batch:
+            empty_batch_streak += 1
+            if empty_batch_streak >= MAX_EMPTY_STREAK:
+                print("\n경고: 연속으로 유효한 배치가 없어 조기 종료합니다.")
+                break
+            continue
+        empty_batch_streak = 0
 
         for data in batch:
             if "text" not in data or "tag" not in data:
