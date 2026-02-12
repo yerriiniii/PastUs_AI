@@ -11,7 +11,8 @@ class TagRequest(BaseModel):
 
 
 class TagResult(BaseModel):
-    tag: str
+    tagId: int
+    tagName: str
     confidence: float
 
 

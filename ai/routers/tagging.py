@@ -8,7 +8,7 @@ router = APIRouter()
 @router.post("/ai/tagging", response_model=TagResponse)
 def tag_post(req: TagRequest):
     try:
-        return TagService.tag_classification(req)
+        return TagService.classify_tags(req)
     except (RuntimeError, OSError) as e:
         raise HTTPException(
             status_code=503,
