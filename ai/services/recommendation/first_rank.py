@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 
-from ai.infra.vector_store_provider import get_vector_store
+from ai.infra.upsert_db_provider import get_upsert_db
 
 
 # 코사인 유사도 기반 1차 후보 조회
@@ -34,8 +34,8 @@ def first_rank(
     """
 
     # DB 연결 -> SQL 실행 -> 결과 반환
-    vector_store = get_vector_store()
-    with vector_store._connect_db() as conn, conn.cursor() as cur:
+    upsert_db = get_upsert_db()
+    with upsert_db._connect_db() as conn, conn.cursor() as cur:
         cur.execute(
             sql_query,
             {

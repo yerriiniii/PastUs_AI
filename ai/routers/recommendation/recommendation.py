@@ -10,11 +10,11 @@ from ai.schemas.recommendation.recommendation import (
 )
 from ai.services.recommendation.recommendation import RecommendationService
 
-router = APIRouter()
+router = APIRouter(prefix="/ai")
 
 
 # 게시글 본문 임베딩 저장 API
-@router.post("/ai/index-embedding", response_model=IndexEmbeddingResponse)
+@router.post("/index-embedding", response_model=IndexEmbeddingResponse)
 def index_embedding(req: IndexEmbeddingRequest):
     try:
         return RecommendationService.index_embeddings(req)
@@ -24,7 +24,7 @@ def index_embedding(req: IndexEmbeddingRequest):
 
 
 # 게시글 태그 저장 API
-@router.post("/ai/index-tags", response_model=IndexTagsResponse)
+@router.post("/index-tags", response_model=IndexTagsResponse)
 def index_tags(req: IndexTagsRequest):
     try:
         return RecommendationService.index_tags(req)
@@ -37,7 +37,7 @@ def index_tags(req: IndexTagsRequest):
 
 
 # 유사 사례 추천 API
-@router.post("/ai/recommendation", response_model=RecommendationResponse)
+@router.post("/recommendation", response_model=RecommendationResponse)
 def recommend_posts(req: RecommendationRequest):
     try:
         return RecommendationService.recommend(req)

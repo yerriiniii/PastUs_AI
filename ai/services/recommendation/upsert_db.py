@@ -5,7 +5,7 @@ from ai.infra.db_connection import DBconnection
 
 class RecommendationUpsertDB(DBconnection):
 
-    # 게시글 임베딩 저장/갱신
+    # 게시글 임베딩을 DB에 저장/갱신
     def upsert_post_embeddings(
         self,
         post_id: int,
@@ -39,7 +39,7 @@ class RecommendationUpsertDB(DBconnection):
             conn.commit()
 
 
-    # 게시글 태그 저장/갱신
+    # 게시글 태그를 DB에 저장/갱신
     def upsert_post_tags(
         self,
         post_id: int,

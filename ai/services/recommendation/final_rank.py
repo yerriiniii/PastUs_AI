@@ -4,15 +4,9 @@ from ai.schemas.tagging.tagging import TagRequest
 from ai.services.tagging.tagging import TagService
 
 
-# 검색어 문장 태그와 1차 후보군 태그 사이의 자카드 유사도 계산
-def _jaccard(a: Set[int], b: Set[int]) -> float:
-    if not a and not b:  # 두 집합의 태그가 모두 비어있으면 0.0 반환
-        return 0.0
-    return len(a & b) / (len(a | b) + 1e-9)
-
-
 # 검색어 쿼리 태깅
 def classify_query_tags(query: str) -> List[int]:
+
     # 검색어 쿼리를 게시글 형태로 만들어 태그 분류 서비스에 요청
     query_tag_response = TagService.classify_tags(
         TagRequest(
@@ -25,10 +19,18 @@ def classify_query_tags(query: str) -> List[int]:
     )
 
     query_tags: List[int] = []
+    
     # 검색어 태깅 결과에서 tagId만 추출하여 리스트에 추가
     for query_tag in query_tag_response.tags:
         query_tags.append(query_tag.tagId)
     return query_tags
+
+
+# 검색어 문장 태그와 1차 후보군 태그 사이의 자카드 유사도 계산
+def _jaccard(a: Set[int], b: Set[int]) -> float:
+    if not a and not b:  # 두 집합의 태그가 모두 비어있으면 0.0 반환
+        return 0.0
+    return len(a & b) / (len(a | b) + 1e-9)
 
 
 # 태그 유사도를 바탕으로 후보군 최종 랭킹

@@ -30,9 +30,6 @@ class IndexTagsResponse(BaseModel):
 
 class RecommendationRequest(BaseModel):
     query: str
-    tagWeight: float = Field(default=0.15, ge=0.0, le=1.0)
-    minEmbeddingScore: float = Field(default=0.55, ge=0.0, le=1.0)
-    minFinalScore: float = Field(default=0.62, ge=0.0, le=2.0)
 
 
 class RecommendationItem(BaseModel):
