@@ -1,9 +1,15 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from ai.routers.tagging import router as tagging_router
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from ai.routers.recommendation.recommendation import router as recommendation_router
+from ai.routers.tagging.tagging import router as tagging_router
 
 app = FastAPI()
 app.include_router(tagging_router)
+app.include_router(recommendation_router)
 
 @app.exception_handler(Exception)
 def global_exception_handler(request: Request, exc: Exception):

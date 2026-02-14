@@ -1,10 +1,12 @@
 from fastapi import APIRouter, HTTPException
-from ai.schemas.tagging import TagRequest, TagResponse
-from ai.services.tagging import TagService
+
+from ai.schemas.tagging.tagging import TagRequest, TagResponse
+from ai.services.tagging.tagging import TagService
 
 router = APIRouter()
 
 
+# 태그 분류 API
 @router.post("/ai/tagging", response_model=TagResponse)
 def tag_post(req: TagRequest):
     try:
