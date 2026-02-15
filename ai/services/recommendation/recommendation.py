@@ -45,9 +45,9 @@ class RecommendationService:
     @staticmethod
     def index_tags(req: IndexTagsRequest) -> IndexTagsResponse:
 
-        # 태그 ID/이름이 모두 비어 있으면 예외
-        if not req.tagIds and not req.tagNames:
-            raise ValueError("tagIds 또는 tagNames 중 하나는 필요합니다.")
+        # 태그 ID/이름 모두 필요
+        if not req.tagIds or not req.tagNames:
+            raise ValueError("tagIds와 tagNames 모두 필요합니다.")
 
         # 게시글 태그 저장
         get_upsert_db().upsert_post_tags(
