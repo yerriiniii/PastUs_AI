@@ -18,9 +18,13 @@ router = APIRouter(prefix="/ai")
 def index_embedding(req: IndexEmbeddingRequest):
     try:
         return RecommendationService.index_embeddings(req)
-    except (RuntimeError, OSError, ValueError) as e:
-        raise HTTPException(status_code=503, detail=f"임베딩 인덱싱에 필요한 모델 사용 불가능: {type(e).__name__}",
-)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except (RuntimeError, OSError) as e:
+        raise HTTPException(
+            status_code=503,
+            detail=f"임베딩 인덱싱에 필요한 모델 사용 불가능: {type(e).__name__}",
+        )
 
 
 # 게시글 태그 저장 API
