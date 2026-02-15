@@ -2,12 +2,13 @@ import json
 import os
 
 from ai.ml.tag_classification import TAGS, TagClassifier
-from ai.schemas.tagging import TagRequest, TagResponse, TagResult
-from ai.services.utils import merge_content 
+from ai.schemas.tagging.tagging import TagRequest, TagResponse, TagResult
+from ai.services.tagging.utils import merge_content 
 
 BASE_MODEL_VERSION = "koelectra-v4"
 THRESHOLD = 0.5
 MODEL_PATH = "ai/model/tag_classification"
+
 
 # 태그 이름 <-> 태그 아이디 매핑 표 생성
 def build_tag_id_map():
@@ -29,6 +30,7 @@ classifier = TagClassifier(MODEL_PATH)
 
 
 class TagService:
+    
     @staticmethod
     def classify_tags(req: TagRequest) -> TagResponse:
      
@@ -53,6 +55,7 @@ class TagService:
                 )
             )
 
+        # 최종 태깅 응답 반환
         return TagResponse(
             postId=req.postId,
             modelVersion=BASE_MODEL_VERSION,
