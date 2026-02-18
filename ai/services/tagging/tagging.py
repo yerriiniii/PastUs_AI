@@ -34,7 +34,7 @@ class TagService:
     @staticmethod
     def classify_tags(req: TagRequest) -> TagResponse:
 
-        # 입력 텍스트 4개 필드는 모두 필요
+        # 포맷 하나라도 비어 있으면 예외
         text_fields = [req.situation, req.choice, req.outcome, req.reflection]
         if any(not field.strip() for field in text_fields):
             raise ValueError("situation, choice, outcome, reflection는 모두 필요합니다.")
