@@ -1,12 +1,11 @@
 import json
 import os
 
-from ai.ml.tag_classification import TAGS, TagClassifier
+from ai.ml.tag_classification import TAGS, THRESHOLD, TagClassifier
 from ai.schemas.tagging.tagging import TagRequest, TagResponse, TagResult
 from ai.services.tagging.utils import merge_content 
 
 BASE_MODEL_VERSION = "koelectra-v4"
-THRESHOLD = 0.5
 MODEL_PATH = "ai/model/tag_classification"
 
 
