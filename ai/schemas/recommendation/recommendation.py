@@ -6,8 +6,6 @@ class IndexEmbeddingRequest(BaseModel):
     postId: int
     situation: str
     choice: str
-    outcome: str
-    reflection: str
 
 
 class IndexEmbeddingResponse(BaseModel):
