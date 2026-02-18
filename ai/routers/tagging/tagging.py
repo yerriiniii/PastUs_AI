@@ -11,6 +11,8 @@ router = APIRouter(prefix="/ai")
 def tag_post(req: TagRequest):
     try:
         return TagService.classify_tags(req)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except (RuntimeError, OSError) as e:
         raise HTTPException(
             status_code=503,
