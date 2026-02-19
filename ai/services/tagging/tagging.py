@@ -1,13 +1,12 @@
 import json
 import os
 
-from ai.ml.tag_classification import TAGS, TagClassifier
+from ai.ml.tag_classification import TAGS, THRESHOLD, TagClassifier
 from ai.schemas.tagging.tagging import TagRequest, TagResponse, TagResult
 from ai.services.tagging.utils import merge_content 
 
-BASE_MODEL_VERSION = "koelectra-v4"
-THRESHOLD = 0.5
-MODEL_PATH = "ai/model/tag_classification"
+BASE_MODEL_VERSION = os.getenv("TAG_MODEL_VERSION", "koelectra-v4")
+MODEL_PATH = os.getenv("TAG_MODEL_PATH", "ai/model/tag_classification")
 
 
 # 태그 이름 <-> 태그 아이디 매핑 표 생성
@@ -34,10 +33,10 @@ class TagService:
     @staticmethod
     def classify_tags(req: TagRequest) -> TagResponse:
 
-        # 포맷 하나라도 비어 있으면 예외
+        # 쿼리 검증 시에는 situation만 사용하기 때문
         text_fields = [req.situation, req.choice, req.outcome, req.reflection]
-        if any(not field.strip() for field in text_fields):
-            raise ValueError("situation, choice, outcome, reflection는 모두 필요합니다.")
+        if not any(field.strip() for field in text_fields):
+            raise ValueError("situation, choice, outcome, reflection 중 하나 이상은 필요합니다.")
 
         # 포맷 병합
         merged_text = merge_content(req)

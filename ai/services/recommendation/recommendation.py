@@ -1,3 +1,5 @@
+import os
+
 from ai.infra.upsert_db_provider import get_upsert_db
 from ai.services.recommendation.embedding import encode_text
 from ai.services.recommendation.final_rank import final_rank
@@ -14,10 +16,20 @@ from ai.schemas.recommendation.recommendation import (
 )
 
 
-# 파라미터
-TAG_SCORE_WEIGHT = 0.15  # 태그 유사도 가중치
-MIN_EMBEDDING_SCORE = 0.4  # 임베딩 유사도 최소 점수
-MIN_FINAL_SCORE = 0.4  # 최종 유사도 최소 점수
+def _get_env_float(name: str, default: float) -> float:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    try:
+        return float(raw)
+    except ValueError as e:
+        raise ValueError(f"{name}는 float 값이어야 합니다: {raw}") from e
+
+
+# 파라미터 (.env 우선, 미설정 시 기본값 사용)
+TAG_SCORE_WEIGHT = _get_env_float("RECOMM_TAG_SCORE_WEIGHT", 0.15)  # 태그 유사도 가중치
+MIN_EMBEDDING_SCORE = _get_env_float("RECOMM_MIN_EMBEDDING_SCORE", 0.4)  # 임베딩 유사도 최소 점수
+MIN_FINAL_SCORE = _get_env_float("RECOMM_MIN_FINAL_SCORE", 0.4)  # 최종 유사도 최소 점수
 
 
 class RecommendationService:
