@@ -1,3 +1,5 @@
+import os
+
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
@@ -7,8 +9,28 @@ TAGS = [
     "새내기", "자취", "편입", "N수/반수", "취업"
 ]
 
-THRESHOLD = 0.5
-MAX_TAGS = 4
+def _get_env_float(name: str, default: float) -> float:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    try:
+        return float(raw)
+    except ValueError as e:
+        raise ValueError(f"{name}는 float 값이어야 합니다: {raw}") from e
+
+
+def _get_env_int(name: str, default: int) -> int:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    try:
+        return int(raw)
+    except ValueError as e:
+        raise ValueError(f"{name}는 int 값이어야 합니다: {raw}") from e
+
+
+THRESHOLD = _get_env_float("TAG_THRESHOLD", 0.5)
+MAX_TAGS = _get_env_int("TAG_MAX_TAGS", 4)
 
 
 class TagClassifier:

@@ -10,6 +10,9 @@ router = APIRouter(prefix="/ai")
 @router.post("/tagging", response_model=TagResponse)
 def tag_post(req: TagRequest):
     try:
+        text_fields = [req.situation, req.choice, req.outcome, req.reflection]
+        if any(not field.strip() for field in text_fields):
+            raise ValueError("situation, choice, outcome, reflection는 모두 필요합니다.")
         return TagService.classify_tags(req)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
