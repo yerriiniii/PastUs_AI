@@ -34,9 +34,9 @@ class TagService:
     def classify_tags(req: TagRequest) -> TagResponse:
 
         # 쿼리 검증 시에는 situation만 사용하기 때문
-        text_fields = [req.situation, req.choice, req.outcome, req.reflection]
+        text_fields = [req.situation, req.action, req.reflection]
         if not any(field.strip() for field in text_fields):
-            raise ValueError("situation, choice, outcome, reflection 중 하나 이상은 필요합니다.")
+            raise ValueError("situation, action, reflection 중 하나 이상은 필요합니다.")
 
         # 포맷 병합
         merged_text = merge_content(req)
