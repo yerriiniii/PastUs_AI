@@ -12,8 +12,7 @@ def classify_query_tags(query: str) -> List[int]:
         TagRequest(
             postId=-1,
             situation=query,
-            choice="",
-            outcome="",
+            action="",
             reflection="",
         )
     )

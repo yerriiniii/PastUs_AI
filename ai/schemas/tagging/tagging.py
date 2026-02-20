@@ -5,8 +5,7 @@ from pydantic import BaseModel
 class TagRequest(BaseModel):
     postId: int
     situation: str
-    choice: str
-    outcome: str
+    action: str
     reflection: str
 
 

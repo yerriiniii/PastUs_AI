@@ -40,7 +40,7 @@ class RecommendationService:
 
         # 게시글에서 상황/결정 텍스트 추출
         situation_text = req.situation.strip()
-        decision_text = req.choice.strip()
+        decision_text = req.action.strip()
 
         # 추출한 텍스트를 각각 임베딩으로 변환해 저장
         get_upsert_db().upsert_post_embeddings(

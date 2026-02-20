@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 class IndexEmbeddingRequest(BaseModel):
     postId: int
     situation: str
-    choice: str
+    action: str
 
 
 class IndexEmbeddingResponse(BaseModel):
