@@ -1,0 +1,13 @@
+.git
+.cursor
+venv
+**/__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.mypy_cache
+.ipynb_checkpoints
+node_modules
+dist
+build
