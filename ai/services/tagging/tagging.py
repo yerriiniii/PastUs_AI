@@ -1,12 +1,16 @@
 import json
 import os
 
+from huggingface_hub import snapshot_download
+
 from ai.ml.tag_classification import TAGS, THRESHOLD, TagClassifier
 from ai.schemas.tagging.tagging import TagRequest, TagResponse, TagResult
 from ai.services.tagging.utils import merge_content 
 
 BASE_MODEL_VERSION = os.getenv("TAG_MODEL_VERSION", "koelectra-v4")
 MODEL_PATH = os.getenv("TAG_MODEL_PATH", "ai/model/tag_classification")
+MODEL_REPO_ID = os.getenv("TAG_MODEL_REPO_ID")
+MODEL_REVISION = os.getenv("TAG_MODEL_REVISION")
 
 
 # 태그 이름 <-> 태그 아이디 매핑 표 생성
@@ -24,8 +28,22 @@ def build_tag_id_map():
 
 TAG_ID_MAP = build_tag_id_map()
 
+
+def download_model_from_hub() -> str:
+    if not MODEL_REPO_ID:
+        raise ValueError("TAG_MODEL_REPO_ID 환경변수는 필수입니다.")
+
+    snapshot_download(
+        repo_id=MODEL_REPO_ID,
+        revision=MODEL_REVISION,
+        local_dir=MODEL_PATH,
+        repo_type="model",
+    )
+    return MODEL_PATH
+
+
 # 모델 로드
-classifier = TagClassifier(MODEL_PATH)
+classifier = TagClassifier(download_model_from_hub())
 
 
 class TagService:

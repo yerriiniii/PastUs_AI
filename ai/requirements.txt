@@ -7,3 +7,4 @@ numpy
 psycopg[binary]
 pgvector
 python-dotenv
+huggingface_hub
